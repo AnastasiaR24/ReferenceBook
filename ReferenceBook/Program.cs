@@ -10,121 +10,121 @@ namespace ReferenceBook
     internal class Program
     {
         static void Main(string[] args)
-{
-    string file = "employee_records.txt";
-    bool exit = false;
-
-    while (!exit)
-    {
-        Console.WriteLine("Выберите действие:");
-        Console.WriteLine("1 - вывести данные на экран");
-        Console.WriteLine("2 - добавить новую запись в файл");
-        Console.WriteLine("3 - выйти");
-
-        string choice = Console.ReadLine();
-
-        switch (choice)
         {
-            case "1":
-                DisplayRecords(file); // для отображения записей из файла
-                break;
-            case "2":
-                AddEmployeeRecord(file); // для добавления новой записи в файл
-                break;
-            case "3":
-                Environment.Exit(0);
-                break;
-            default:
-                Console.WriteLine("Некорректный ввод.");
-                break;
-        }
-    }
-    Console.ReadLine();
-}
+            string file = "employee_records.txt";
+            bool exit = false;
 
-// для отображения записей из файла
-static void DisplayRecords(string file)
-{
-    if (File.Exists(file))
-    {
-        string[] lines = File.ReadAllLines(file);
-        foreach (string line in lines)
-        {
-            string[] elements = line.Split('#');
-            foreach (string element in elements)
+            while (!exit)
             {
-                Console.Write(element + "  ");
+                Console.WriteLine("Выберите действие:");
+                Console.WriteLine("1 - вывести данные на экран");
+                Console.WriteLine("2 - добавить новую запись в файл");
+                Console.WriteLine("3 - выйти");
+
+                string choice = Console.ReadLine();
+
+                switch (choice)
+                {
+                    case "1":
+                        DisplayRecords(file); // для отображения записей из файла
+                        break;
+                    case "2":
+                        AddEmployeeRecord(file); // для добавления новой записи в файл
+                        break;
+                    case "3":
+                        Environment.Exit(0);
+                        break;
+                    default:
+                        Console.WriteLine("Некорректный ввод.");
+                        break;
+                }
             }
-            Console.WriteLine();
+            Console.ReadLine();
         }
-    }
-    else
-    {
-        // Если файла нет, выводим сообщение об ошибке
-        Console.WriteLine("Файл не существует.");
-        Console.ReadKey();
-    }
-}
 
-// для добавления новой записи в файл
-static void AddEmployeeRecord(string file)
-{
-    int id, age, height;
-    string timestamp, fullName, birthPlace, birthDate;
+        // для отображения записей из файла
+        static void DisplayRecords(string file)
+        {
+            if (File.Exists(file))
+            {
+                string[] lines = File.ReadAllLines(file);
+                foreach (string line in lines)
+                {
+                    string[] elements = line.Split('#');
+                    foreach (string element in elements)
+                    {
+                        Console.Write(element + "  ");
+                    }
+                    Console.WriteLine();
+                }
+            }
+            else
+            {
+                // Если файла нет, выводим сообщение об ошибке
+                Console.WriteLine("Файл не существует.");
+                Console.ReadKey();
+            }
+        }
 
-    if (!File.Exists(file))
-    {
-        File.Create(file).Close();
-    }
+        // для добавления новой записи в файл
+        static void AddEmployeeRecord(string file)
+        {
+            int id, age, height;
+            string timestamp, fullName, birthPlace, birthDate;
 
-    string[] existingRecords = File.ReadAllLines(file);
-    if (existingRecords.Length == 0)
-    {
-        id = 1;
-    }
-    else
-    {
-        id = existingRecords.Length + 1;
-    }
+            if (!File.Exists(file))
+            {
+                File.Create(file).Close();
+            }
 
-    Console.WriteLine("Введите данные сотрудника:");
+            string[] existingRecords = File.ReadAllLines(file);
+            if (existingRecords.Length == 0)
+            {
+                id = 1;
+            }
+            else
+            {
+                id = existingRecords.Length + 1;
+            }
 
-    timestamp = DateTime.Now.ToString("dd.MM.yyyy HH:mm");
+            Console.WriteLine("Введите данные сотрудника:");
 
-    Console.Write("Ф. И. О.: ");
-    fullName = Console.ReadLine();
+            timestamp = DateTime.Now.ToString("dd.MM.yyyy HH:mm");
 
-    Console.Write("Возраст: ");
-    while (!int.TryParse(Console.ReadLine(), out age))
-    {
-        Console.WriteLine("Введите корректный возраст.");
-        Console.Write("Возраст: ");
-    }
+            Console.Write("Ф. И. О.: ");
+            fullName = Console.ReadLine();
 
-    Console.Write("Рост: ");
-    while (!int.TryParse(Console.ReadLine(), out height))
-    {
-        Console.WriteLine("Введите корректный рост.");
-        Console.Write("Рост: ");
-    }
+            Console.Write("Возраст: ");
+            while (!int.TryParse(Console.ReadLine(), out age))
+            {
+                Console.WriteLine("Введите корректный возраст.");
+                Console.Write("Возраст: ");
+            }
 
-    Console.Write("Дата рождения (в формате ДД.ММ.ГГГГ): ");
-    birthDate = Console.ReadLine();
+            Console.Write("Рост: ");
+            while (!int.TryParse(Console.ReadLine(), out height))
+            {
+                Console.WriteLine("Введите корректный рост.");
+                Console.Write("Рост: ");
+            }
+
+            Console.Write("Дата рождения (в формате ДД.ММ.ГГГГ): ");
+            birthDate = Console.ReadLine();
 
 
-    Console.Write("Место рождения: ");
-    birthPlace = Console.ReadLine();
+            Console.Write("Место рождения: ");
+            birthPlace = Console.ReadLine();
 
-    // открываем файл для добавления записи
-    string record = $"{id}#{timestamp}#{fullName}#{age}#{height}#{birthDate}#{birthPlace}";
+            // открываем файл для добавления записи
+            string record = $"{id}#{timestamp}#{fullName}#{age}#{height}#{birthDate}#{birthPlace}";
 
-    using (StreamWriter sw = File.AppendText(file))
-    {
-        sw.WriteLine(record);
-    }
+            using (StreamWriter sw = File.AppendText(file))
+            {
+                sw.WriteLine(record);
+            }
 
-    Console.WriteLine("Запись добавлена в файл.");
-    Console.ReadKey();
-}
+            Console.WriteLine("Запись добавлена в файл.");
+            Console.ReadKey();
+        }
     }
 }
